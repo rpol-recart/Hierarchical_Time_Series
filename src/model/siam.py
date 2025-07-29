@@ -80,7 +80,7 @@ class HierarchicalSignalNet(nn.Module):
         # --- Прогон через кодировщик ---
         
         # Для Conv1d нужен формат (batch, features, seq_len)
-        x = x.permute(0, 2, 1)
+        #x = x.permute(0, 2, 1)
         cnn_out = self.encoder_cnn(x)
         
         # Для LSTM нужен формат (batch, seq_len, features)

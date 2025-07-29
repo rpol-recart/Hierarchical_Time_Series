@@ -68,6 +68,7 @@ def train_one_epoch(model, dataloader, loss_fn, optimizer, device, epoch_num, nu
             continue
 
         signals = batch['signals'].to(device)
+        signals=signals.permute(0,2,1)
         
         optimizer.zero_grad()
         
@@ -146,7 +147,10 @@ def run_training(args):
     # 3. Инициализация модели, функции потерь и оптимизатора
     print(f"Инициализация модели с размерностью эмбеддинга: {args.embedding_dim}")
     model = HierarchicalSignalNet(embedding_dim=args.embedding_dim).to(device)
-    
+    try:
+        model.load_state_dict(torch.load("checkpoints/model_epoch_20.pth")) 
+    except FileNotFoundError:
+        print("Внимание: Файл с весами модели не найден. Будут использованы случайные веса.")
     loss_fn = HierarchicalLoss(
         lambda_metric=args.lambda_metric, 
         margin_session=args.margin_session, 
