@@ -68,6 +68,7 @@ def train_one_epoch(model, dataloader, loss_fn, optimizer, device, epoch_num, nu
             continue
 
         signals = batch['signals'].to(device)
+        #(batch,channels,seg_len)
         signals=signals.permute(0,2,1)
         
         optimizer.zero_grad()
